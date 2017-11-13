@@ -1,0 +1,6 @@
+---
+- type: replace
+  path: /releases/name=kong
+  value:
+    name: kong
+    version: latest

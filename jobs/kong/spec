@@ -1,0 +1,6 @@
+---
+name: kong
+packages: []
+templates:
+  ignoreme: ignoreme
+properties: {}
