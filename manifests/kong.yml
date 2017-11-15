@@ -13,7 +13,28 @@ instance_groups:
   jobs:
   - name: kong
     release: kong
-    properties: {}
+    properties: 
+      kong_conf: |
+        database = postgres
+        pg_host = 127.0.0.1
+        pg_port = 5432
+        pg_user = kong
+        pg_password = kong
+        pg_database = kong
+
+  - name: postgres
+    release: postgres
+    properties:
+      databases: 
+        databases:
+        - name: kong
+          citext: true
+        port: 5432
+        roles:
+        - name: kong
+          password: kong
+          permissions:
+          - "SUPERUSER"
 
 variables: []
 
@@ -31,6 +52,8 @@ update:
 
 releases:
 - name: kong
-  version: latest # TODO: update after first final release
-  # url:            TODO: update after first final release
-  # sha1:           TODO: update after first final release
+  version: latest
+- name: postgres
+  version: 21
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=21
+  sha1: b37916b709fb45ac7de3e195456301cb01a1ae22

@@ -35,9 +35,11 @@ make linux
 make install INSTALL_TOP=${BOSH_INSTALL_TARGET}
 popd
 
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
 pushd luarocks-${LUAROCKSVERSION}
 ./configure \
-  --prefix=${BOSH_INSTALL_TARGET}
+  --prefix=${BOSH_INSTALL_TARGET} \
+  --rocks-tree=${BOSH_INSTALL_TARGET}/bin
 make build
 make install
 popd
