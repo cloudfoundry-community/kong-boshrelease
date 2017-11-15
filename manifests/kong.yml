@@ -1,11 +1,7 @@
 ---
 name: kong
 
-addons:
-- name: bpm
-  jobs:
-  - name: bpm
-    release: bpm
+director_uuid: 63ddb6a6-d6fe-40e1-b16b-2ff6b2034c79
 
 instance_groups:
 - name: kong
@@ -34,9 +30,6 @@ update:
   serial: false
 
 releases:
-- name: bpm
-  version: 0.2.0
-  url: git+https://github.com/cloudfoundry-incubator/bpm-release
 - name: kong
   version: latest # TODO: update after first final release
   # url:            TODO: update after first final release

@@ -1,0 +1,59 @@
+#!/bin/bash
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=$(grep -c ^processor /proc/cpuinfo)
+  # Available variables
+# $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
+# $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
+export HOME=/var/vcap
+export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin
+
+
+KONGVERSION=0.11.1
+LUAVERSION=5.1.5
+LUAROCKSVERSION=2.4.3
+GITVERSION=2.9.5
+OPENSSLVERSION=1.1.0g
+
+# installation instructions found here: https://getkong.org/install/source/
+tar -xzvf kong/kong-${KONGVERSION}.tar.gz
+tar -xzvf kong/luarocks-${LUAROCKSVERSION}.tar.gz
+tar -xzvf kong/lua-${LUAVERSION}.tar.gz
+tar -xzvf kong/git-${GITVERSION}.tar.gz
+tar -xzvf kong/openssl-${OPENSSLVERSION}.tar.gz
+
+pushd git-${GITVERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}
+make all
+make install
+popd
+
+pushd lua-${LUAVERSION}
+make linux
+make install INSTALL_TOP=${BOSH_INSTALL_TARGET}
+popd
+
+pushd luarocks-${LUAROCKSVERSION}
+./configure \
+  --prefix=${BOSH_INSTALL_TARGET}
+make build
+make install
+popd
+
+pushd openssl-${OPENSSLVERSION}
+./config \
+  -DSSL_ALLOW_ADH \
+  --shared \
+  --prefix=${BOSH_INSTALL_TARGET}/external/openssl \
+  --openssldir=${BOSH_INSTALL_TARGET}/external/openssldir
+
+make
+make install
+popd
+
+pushd kong-${KONGVERSION}
+pwd
+luarocks make kong-${KONGVERSION}-0.rockspec
+popd

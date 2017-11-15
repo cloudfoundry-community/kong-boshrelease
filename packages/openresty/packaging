@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=$(grep -c ^processor /proc/cpuinfo)
+  # Available variables
+# $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
+# $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
+export HOME=/var/vcap
+
+ORVERSION=1.13.6.1
+PCREVERSION=8.41
+
+# installation instructions found here: https://openresty.org/en/installation.html
+mkdir $BOSH_INSTALL_TARGET/openresty
+tar -xvf openresty/openresty-${ORVERSION}.tar.gz
+tar -xvf openresty/pcre-${PCREVERSION}.tar.gz
+pushd openresty-${ORVERSION}/
+
+# configuration taken from kong installation instructions here: https://getkong.org/install/source/
+./configure \
+  --with-pcre=../pcre-${PCREVERSION} \
+  --with-pcre-jit \
+  --with-ipv6 \
+  --with-http_realip_module \
+  --with-http_ssl_module \
+  --with-http_stub_status_module \
+  --with-http_v2_module \
+  --prefix=${BOSH_INSTALL_TARGET}
+make -j${CPUS}
+make install

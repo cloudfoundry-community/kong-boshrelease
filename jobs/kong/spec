@@ -1,6 +1,12 @@
 ---
 name: kong
-packages: []
-templates:
-  ignoreme: ignoreme
+
+description: Kong is a scalable, open source API Layer (also known as an API Gateway, or API Middleware). Kong runs in front of any RESTful API and is extended through Plugins, which provide extra functionality and services beyond the core platform.
+
+templates: {}
+
+packages:
+- openresty
+- kong
+
 properties: {}
