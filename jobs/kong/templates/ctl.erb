@@ -15,7 +15,10 @@ mkdir -p $RUN_DIR $LOG_DIR $CONFIG_DIR
 case $1 in
 
   start)
-    $BASE_DIR/packages/kong/bin/$JOB_NAME start --conf $CONFIG_FILE
+    echo "hello is this working?" >> /tmp/random.txt
+    eval $(luarocks path --bin)
+    echo "did the eval? maybe?" >> /tmp/stuff.txt
+    ${BASE_DIR}/packages/kong/bin/kong start --conf ${CONFIG_DIR}/${CONFIG_FILE}
     ;;
   stop)
     kill $(cat $PIDFILE)
