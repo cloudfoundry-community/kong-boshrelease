@@ -35,11 +35,15 @@ make linux
 make install INSTALL_TOP=${BOSH_INSTALL_TARGET}
 popd
 
-mkdir -p ${BOSH_INSTALL_TARGET}/bin
+#TODO try luarocks 2.4.2
 pushd luarocks-${LUAROCKSVERSION}
+mkdir -p ${BOSH_INSTALL_TARGET}/rocks
 ./configure \
+  --lua-suffix=jit \
+  --with-lua=/var/vcap/packages/openresty/luajit \
+  --with-lua-include=/var/vcap/packages/openresty/luajit/include/luajit-2.1 \
   --prefix=${BOSH_INSTALL_TARGET} \
-  --rocks-tree=${BOSH_INSTALL_TARGET}/bin
+  --rocks-tree=${BOSH_INSTALL_TARGET}/rocks
 make build
 make install
 popd
@@ -57,5 +61,5 @@ popd
 
 pushd kong-${KONGVERSION}
 pwd
-luarocks make kong-${KONGVERSION}-0.rockspec
+luarocks --tree=${BOSH_INSTALL_TARGET} make kong-${KONGVERSION}-0.rockspec
 popd
