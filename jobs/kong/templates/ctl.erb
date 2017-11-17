@@ -20,9 +20,9 @@ case $1 in
         export PATH=${package_bin_dir}:$PATH
       done
     # `eval `luarocks path --bin``
-    # touch /tmp/luapath.sh && chmod 777 /tmp/luapath.sh
-    # luarocks path --bin > /tmp/luapath.sh
-    # cd /tmp/ && ./luapath.sh
+    touch /tmp/luapath.sh && chmod 777 /tmp/luapath.sh
+    luarocks path --bin > /tmp/luapath.sh
+    source /tmp/luapath.sh
     ${BASE_DIR}/packages/kong/bin/kong start --conf ${CONFIG_FILE}
     ;;
   stop)
