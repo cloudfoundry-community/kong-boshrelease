@@ -19,11 +19,15 @@ case $1 in
       do
         export PATH=${package_bin_dir}:$PATH
       done
-    # `eval `luarocks path --bin``
+    # eval $(luarocks path --bin)
     touch /tmp/luapath.sh && chmod 777 /tmp/luapath.sh
     luarocks path --bin > /tmp/luapath.sh
     source /tmp/luapath.sh
-    ${BASE_DIR}/packages/kong/bin/kong start --conf ${CONFIG_FILE}
+    export PATH=/var/vcap/packages/openresty/bin:$PATH
+    export PATH=/var/vcap/packages/openresty/nginx/sbin:$PATH
+    export PATH=/var/vcap/packages/kong/external/openssl/bin:$PATH
+    kong migrations up
+    kong start --conf ${CONFIG_FILE}
     ;;
   stop)
     kill $(cat $PIDFILE)

@@ -10,7 +10,7 @@ CPUS=$(grep -c ^processor /proc/cpuinfo)
 export HOME=/var/vcap
 export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin
 
-ORVERSION=1.13.6.1
+ORVERSION=1.11.2.4
 PCREVERSION=8.41
 
 # installation instructions found here: https://openresty.org/en/installation.html
