@@ -15,13 +15,11 @@ KONGVERSION=0.11.1
 LUAVERSION=5.1.5
 LUAROCKSVERSION=2.4.3
 GITVERSION=2.9.5
-OPENSSLVERSION=1.1.0g
 
 # installation instructions found here: https://getkong.org/install/source/
 tar -xzvf kong/kong-${KONGVERSION}.tar.gz
 tar -xzvf kong/luarocks-${LUAROCKSVERSION}.tar.gz
 tar -xzvf kong/git-${GITVERSION}.tar.gz
-tar -xzvf kong/openssl-${OPENSSLVERSION}.tar.gz
 
 pushd git-${GITVERSION}
 ./configure --prefix=${BOSH_INSTALL_TARGET}
@@ -44,18 +42,6 @@ mkdir -p ${BOSH_INSTALL_TARGET}/luarocks
 make build
 make install
 eval $(luarocks path --bin)
-popd
-
-pushd openssl-${OPENSSLVERSION}
-OPENSSL_DIR=${BOSH_INSTALL_TARGET}/external/openssldir
-./config \
-  -DSSL_ALLOW_ADH \
-  --shared \
-  --prefix=${BOSH_INSTALL_TARGET}/external/openssl \
-  --openssldir=${OPENSSL_DIR}
-
-make
-make install
 popd
 
 pushd kong-${KONGVERSION}

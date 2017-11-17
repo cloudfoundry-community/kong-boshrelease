@@ -12,13 +12,30 @@ export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin
 
 ORVERSION=1.11.2.4
 PCREVERSION=8.41
+OPENSSLVERSION=1.1.0g
 
 # installation instructions found here: https://openresty.org/en/installation.html
 #mkdir $BOSH_INSTALL_TARGET/openresty
-tar -xvf openresty/openresty-${ORVERSION}.tar.gz
-tar -xvf openresty/pcre-${PCREVERSION}.tar.gz
-pushd openresty-${ORVERSION}/
+tar -xzvf openresty/openresty-${ORVERSION}.tar.gz
+tar -xzvf openresty/pcre-${PCREVERSION}.tar.gz
+tar -xzvf openresty/openssl-${OPENSSLVERSION}.tar.gz
 
+
+pushd openssl-${OPENSSLVERSION}
+./config \
+  -DSSL_ALLOW_ADH \
+  --shared \
+  --prefix=${BOSH_INSTALL_TARGET}/external/openssl \
+  --openssldir=${BOSH_INSTALL_TARGET}/external/openssldir
+make
+make install
+popd
+
+pushd openresty-${ORVERSION}
+export OPENSSL_CRYPTO_CFLAGS="-I${BOSH_INSTALL_TARGET}/external/openssl/include"
+export OPENSSL_CRYPTO_LIBS="-L${BOSH_INSTALL_TARGET}/external/openssl/lib -lcrypto"
+export OPENSSL_SSL_CFLAGS="-I${BOSH_INSTALL_TARGET}/external/openssl/include"
+export OPENSSL_SSL_LIBS="-L${BOSH_INSTALL_TARGET}/external/openssl/lib -lssl"
 # configuration taken from kong installation instructions here: https://getkong.org/install/source/
 ./configure \
   --with-pcre=../pcre-${PCREVERSION} \
@@ -31,3 +48,4 @@ pushd openresty-${ORVERSION}/
   --prefix=${BOSH_INSTALL_TARGET}
 make -j${CPUS}
 make install
+popd

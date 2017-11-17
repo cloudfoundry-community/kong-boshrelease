@@ -25,7 +25,8 @@ case $1 in
     source /tmp/luapath.sh
     export PATH=/var/vcap/packages/openresty/bin:$PATH
     export PATH=/var/vcap/packages/openresty/nginx/sbin:$PATH
-    export PATH=/var/vcap/packages/kong/external/openssl/bin:$PATH
+    export PATH=/var/vcap/packages/kong/lib/openssl/bin:$PATH
+    export LD_LIBRARY_PATH=/var/vcap/packages/kong/lib/openssl/lib
     kong migrations up
     kong start --conf ${CONFIG_FILE}
     ;;
