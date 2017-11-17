@@ -15,10 +15,15 @@ mkdir -p $RUN_DIR $LOG_DIR $CONFIG_DIR
 case $1 in
 
   start)
-    echo "hello is this working?" >> /tmp/random.txt
-    eval $(luarocks path --bin)
-    echo "did the eval? maybe?" >> /tmp/stuff.txt
-    ${BASE_DIR}/packages/kong/bin/kong start --conf ${CONFIG_DIR}/${CONFIG_FILE}
+    for package_bin_dir in $(ls -d /var/vcap/packages/*/*bin)
+      do
+        export PATH=${package_bin_dir}:$PATH
+      done
+      ``eval `luarocks path --bin```
+    # touch /tmp/luapath.sh && chmod 777 /tmp/luapath.sh
+    # luarocks path --bin > /tmp/luapath.sh
+    # cd /tmp/ && ./luapath.sh
+    ${BASE_DIR}/packages/kong/bin/kong start --conf ${CONFIG_FILE}
     ;;
   stop)
     kill $(cat $PIDFILE)
