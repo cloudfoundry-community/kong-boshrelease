@@ -1,1 +1,18 @@
---- {}
+kong/git-2.9.5.tar.gz:
+  size: 5928730
+  sha: 278eae9d50f89a519522f6b288cabcb5ca583ef6
+kong/kong-0.11.1.tar.gz:
+  size: 404379
+  sha: dc93c2fa4582ec23060b057786fbc6102cbfd4d9
+kong/luarocks-2.4.3.tar.gz:
+  size: 141632
+  sha: bca49adca574b4a163e4fb10909fd7fc47b6c7ea
+openresty/openresty-1.11.2.4.tar.gz:
+  size: 4158984
+  sha: 7449c57cf53e3ac963736b7e0333c929688b5bfc
+openresty/pcre-8.41.tar.gz:
+  size: 2068775
+  sha: dddf0995aefe04cc6267c1448ffef0e7b0560ec0
+openssl/openssl-1.0.2m.tar.gz:
+  size: 5373776
+  sha: 27fb00641260f97eaa587eb2b80fab3647f6013b
