@@ -9,7 +9,11 @@ instance_groups:
   instances: 1
   vm_type: default
   stemcell: default
-  networks: [{name: default}]
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.20.2
+    
   jobs:
   - name: docker
     release: docker

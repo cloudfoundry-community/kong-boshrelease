@@ -5,30 +5,60 @@ set -u # report the usage of uninitialized variables
 
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/kong/helpers/ctl_setup.sh 'kong'
-echo "pickles1"
 export DOCKER_COMMAND="/var/vcap/packages/docker/bin/docker -H unix:///var/vcap/sys/run/docker/docker.sock"
 export container_name="kong"
 export CONTAINERS_PID_DIR=${RUN_DIR}
 export CONTAINER_PID_FILE=${CONTAINERS_PID_DIR}/${container_name}.pid
-echo "pickles2"
 case $1 in
 
   start)
-    echo "pickles3"
     pid_guard ${CONTAINER_PID_FILE} ${JOB_NAME}
     echo $$ > ${CONTAINER_PID_FILE}
-    echo "pickles4"
     ${DOCKER_COMMAND} stop ${container_name}  || true
     ${DOCKER_COMMAND} rm ${container_name} -f || true
-    echo "pickles5"
     #${DOCKER_COMMAND} run --name=${container_name} -p 5098:5098 -p 8443:8443 \
       #-p 5054:5054 -p 80:80 -p 443:443 -p 161:161/udp  -d --privileged \
 
-    ${DOCKER_COMMAND} run -d --name kong --privileged \
+    # ${DOCKER_COMMAND} run -d --name kong --privileged \
+    # -e "KONG_DATABASE=postgres" \
+    # -e "KONG_PG_HOST=localhost" \
+    # -e "KONG_PG_USER=kong" \
+    # -e "KONG_PG_PASSWORD=" \
+    # -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+    # -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+    # -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+    # -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+    # -p 8000:8000 \
+    # -p 8443:8443 \
+    # -p 8001:8001 \
+    # -p 8444:8444 \
+    # kong:latest \
+
+  ${DOCKER_COMMAND} run --rm --privileged \
     -e "KONG_DATABASE=postgres" \
-    -e "KONG_PG_HOST=localhost" \
+    -e "KONG_PG_DATABASE=kong" \
+    -e "KONG_PG_HOST=10.244.20.2" \
     -e "KONG_PG_USER=kong" \
-    -e "KONG_PG_PASSWORD=" \
+    -e "KONG_PG_PASSWORD=kong" \
+    -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+    -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+    -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+    -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+    -p 8000:8000 \
+    -p 8443:8443 \
+    -p 8001:8001 \
+    -p 8444:8444 \
+    kong:latest kong migrations up \
+    >>${LOG_DIR}/${output_label}.stdout.log \
+    2>>${LOG_DIR}/${output_label}.stderr.log \
+
+
+  ${DOCKER_COMMAND} run -d --name kong --privileged \
+    -e "KONG_DATABASE=postgres" \
+    -e "KONG_PG_DATABASE=kong" \
+    -e "KONG_PG_HOST=10.244.20.2" \
+    -e "KONG_PG_USER=kong" \
+    -e "KONG_PG_PASSWORD=kong" \
     -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
     -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
     -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
@@ -40,11 +70,9 @@ case $1 in
     kong:latest \
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log
-    echo "pickles6"
 
     pid_process=$(${DOCKER_COMMAND} inspect -f '{{ .State.Pid }}' ${container_name})
     echo $pid_process > ${CONTAINER_PID_FILE}
-    echo "pickles7"
     ;;
 
   stop)
