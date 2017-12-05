@@ -1,5 +1,0 @@
----
-name: openssl
-dependencies: []
-files:
-- openssl/openssl-1.0.2m.tar.gz

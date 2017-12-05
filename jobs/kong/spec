@@ -1,15 +1,16 @@
 ---
-name: avi-controller
+name: kong
 
-packages:
-- avi
+description: Kong is a scalable, open source API Layer (also known as an API Gateway, or API Middleware). Kong runs in front of any RESTful API and is extended through Plugins, which provide extra functionality and services beyond the core platform.
+
+packages: []
 templates:
   bin/ctl: bin/ctl
+  kong.conf.erb: etc/kong/kong.conf
   bin/monit_debugger: bin/monit_debugger
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
-  management_ip:
-    description: "ip of management"
-    default: ""
+  kong_conf:
+    description: 'The contents of kong.conf, the primary configuration file; can be found here: https://getkong.org/docs/0.11.x/configuration/'

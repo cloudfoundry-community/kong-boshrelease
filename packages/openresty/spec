@@ -1,7 +1,0 @@
----
-name: openresty
-dependencies:
-- openssl
-files:
-- openresty/openresty-1.11.2.4.tar.gz
-- openresty/pcre-8.41.tar.gz

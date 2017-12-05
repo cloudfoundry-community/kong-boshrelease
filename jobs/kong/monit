@@ -1,5 +1,5 @@
-check process avi-controller
-  with pidfile /var/vcap/sys/run/avi-controller/avi-controller.pid
-  start program "/var/vcap/jobs/avi-controller/bin/monit_debugger ctl '/var/vcap/jobs/avi-controller/bin/ctl start'"
-  stop program "/var/vcap/jobs/avi-controller/bin/monit_debugger ctl '/var/vcap/jobs/avi-controller/bin/ctl stop'"
+check process kong
+  with pidfile /var/vcap/sys/run/kong/kong.pid
+  start program "/var/vcap/jobs/kong/bin/monit_debugger ctl '/var/vcap/jobs/kong/bin/ctl start'"
+  stop program "/var/vcap/jobs/kong/bin/monit_debugger ctl '/var/vcap/jobs/kong/bin/ctl stop'"
   group vcap
