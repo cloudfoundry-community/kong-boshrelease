@@ -11,6 +11,21 @@ instance_groups:
   stemcell: default
   networks: [{name: default}]
   jobs:
+  - name: docker
+    release: docker
+  - name: postgres
+    release: postgres
+    properties:
+      databases:
+        databases:
+        - name: kong
+          citext: true
+        port: 5432
+        roles:
+        - name: kong
+          password: kong
+          permissions:
+          - "SUPERUSER"
   - name: kong
     release: kong
     properties: 
@@ -21,22 +36,6 @@ instance_groups:
         pg_user = kong
         pg_password = kong
         pg_database = kong
-
-  - name: postgres
-    release: postgres
-    properties:
-      databases: 
-        databases:
-        - name: kong
-          citext: true
-        port: 5432
-        roles:
-        - name: kong
-          password: kong
-          permissions:
-          - "SUPERUSER"
-  - name: docker
-    release: docker
 
 
 variables: []
@@ -57,9 +56,9 @@ releases:
 - name: kong
   version: latest
 - name: postgres
-  version: 21
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=21
-  sha1: b37916b709fb45ac7de3e195456301cb01a1ae22
+  version: 23
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=23
+  sha1: 4b5265bfd5f92cf14335a75658658a0db0bca927
 - name: docker
   version: 30.1.5
   url: https://bosh.io/d/github.com/cf-platform-eng/docker-boshrelease?v=30.1.5

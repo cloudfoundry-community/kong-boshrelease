@@ -6,7 +6,6 @@ description: Kong is a scalable, open source API Layer (also known as an API Gat
 packages: []
 templates:
   bin/ctl: bin/ctl
-  kong.conf.erb: etc/kong/kong.conf
   bin/monit_debugger: bin/monit_debugger
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh

@@ -1,5 +1,0 @@
-check process docker
-  with pidfile /var/vcap/sys/run/bpm/docker/docker.pid
-  start program "/var/vcap/jobs/bpm/bin/bpm start docker"
-  stop program "/var/vcap/jobs/bpm/bin/bpm stop docker"
-  group vcap
