@@ -17,7 +17,7 @@ case $1 in
     ${DOCKER_COMMAND} rm ${container_name} -f || true
 
   ${DOCKER_COMMAND} run --rm --privileged \
-    -e "KONG_DATABASE=postgres" \
+    -e "KONG_DATABASE=<%= p("kong.kong_database") %>" \
     -e "KONG_PG_DATABASE=kong" \
     -e "KONG_PG_HOST=10.244.20.2" \
     -e "KONG_PG_USER=kong" \
@@ -28,10 +28,10 @@ case $1 in
     -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
     -e "KONG_PROXY_LISTEN=0.0.0.0:80" \
     -e "KONG_PROXY_LISTEN_SSL=0.0.0.0:443" \
-    -p 80:80 \
-    -p 443:443 \
-    -p 8001:8001 \
-    -p 8444:8444 \
+    -p <%= p("kong.kong_proxy_listen_port") %>:<%= p("kong.kong_proxy_listen_port") %> \
+    -p <%= p("kong.kong_proxy_listen_ssl_port") %>:<%= p("kong.kong_proxy_listen_ssl_port") %> \
+    -p <%= p("kong.kong_admin_listen_port") %>:<%= p("kong.kong_admin_listen_port") %> \
+    -p <%= p("kong.kong_admin_listen_ssl_port") %>:<%= p("kong.kong_admin_listen_ssl_port") %> \
     kong:latest kong migrations up \
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log \
@@ -49,12 +49,10 @@ case $1 in
     -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
     -e "KONG_PROXY_LISTEN=0.0.0.0:80" \
     -e "KONG_PROXY_LISTEN_SSL=0.0.0.0:443" \
-    -p 80:80 \
-    -p 443:443 \
-    -p 8443:8443 \
-    -p 8001:8001 \
-    -p 8444:8444 \
-    kong:latest \
+    -p <%= p("kong.kong_proxy_listen_port") %>:<%= p("kong.kong_proxy_listen_port") %> \
+    -p <%= p("kong.kong_proxy_listen_ssl_port") %>:<%= p("kong.kong_proxy_listen_ssl_port") %> \
+    -p <%= p("kong.kong_admin_listen_port") %>:<%= p("kong.kong_admin_listen_port") %> \
+    -p <%= p("kong.kong_admin_listen_ssl_port") %>:<%= p("kong.kong_admin_listen_ssl_port") %> \
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log
 

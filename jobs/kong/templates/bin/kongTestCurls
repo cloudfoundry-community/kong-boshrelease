@@ -1,0 +1,65 @@
+curl -i -X POST \
+  --url http://localhost:8001/apis/ \
+  --data 'name=kong_testing' \
+  --data 'hosts=alex.com' \
+  --data 'upstream_url=http://localhost:5000'
+
+
+  curl -i -X GET \
+  --url http://alex.com:8000 \
+  --header 'Host: alex.com'
+
+
+
+
+
+  curl -i -X POST \
+  --url http://10.244.20.2:8001/apis/ \
+  --data 'name=example-api' \
+  --data 'hosts=example.com' \
+  --data 'upstream_url=http://mockbin.org'
+
+
+  curl -i -X GET \
+  --url http://10.244.20.2:8000/ \
+  --header 'Host: example.com'
+
+  __________________________________________
+
+
+  curl -i -X POST \
+  --url http://10.244.20.2:8001/apis/ \
+  --data 'name=example1' \
+  --data 'hosts=example1.com' \
+  --data 'upstream_url=http://bosh.io'
+
+
+  curl -i -X GET \
+  --url http://10.244.20.2:8000/ \
+  --header 'Host: example3.com'
+
+
+----------------------------------------------
+
+curl -i -X POST \
+  --url http://10.244.20.2:8001/apis/ \
+  --data 'name=example1docs' \
+  --data 'hosts=example1.com' \
+  --data 'uris=/docs' \
+--data 'upstream_url=http://bosh.io/docs'
+
+---------------------------------------------
+
+curl -i -X POST \
+  --url http://10.244.20.2:8001/apis/ \
+  --data 'name=port80example' \
+  --data 'hosts=port80example.com' \
+  --data 'upstream_url=http://example.com'
+
+---------------------------------------------
+
+curl -i -X POST \
+  --url http://10.244.20.2:8001/apis/ \
+  --data 'name=port443example' \
+  --data 'hosts=port443example.com' \
+  --data 'upstream_url=https://bosh.io'
