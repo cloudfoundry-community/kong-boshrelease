@@ -32,14 +32,6 @@ instance_groups:
           - "SUPERUSER"
   - name: kong
     release: kong
-    properties: 
-      kong_conf: |
-        database = postgres
-        pg_host = 127.0.0.1
-        pg_port = 5432
-        pg_user = kong
-        pg_password = kong
-        pg_database = kong
 
 
 variables: []
