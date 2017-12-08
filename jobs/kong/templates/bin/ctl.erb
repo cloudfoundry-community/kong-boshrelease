@@ -9,9 +9,11 @@ export container_name="kong"
 export CONTAINERS_PID_DIR=${RUN_DIR}
 export CONTAINER_PID_FILE=${CONTAINERS_PID_DIR}/${container_name}.pid
 
-#bosh link variables
+#bosh link will auto grab the postgres, unless it's defined in the manifest
 export DATABASE_HOST="<%= link('postgres').instances[0].address %>"
-export DATABASE_PORT="<%= link('postgres').p('databases.port') %>"
+<% if_p("kong_pg_host") do |prop| %>
+  export DATABASE_HOST=prop
+<% end %>
 
 case $1 in
 
