@@ -10,6 +10,15 @@ templates:
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
+provides:
+- name: kong
+  type: proxy
+  properties:
+  - kong_proxy_listen
+  - kong_proxy_listen_ssl
+  - kong_admin_listen
+  - kong_admin_listen_ssl
+
 consumes:
 - name: postgres
   type: database

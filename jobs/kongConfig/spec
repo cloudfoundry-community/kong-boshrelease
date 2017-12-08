@@ -1,0 +1,31 @@
+---
+name: kongConfig
+description: kongConfig loads the desired config for proxying into Kong's admin api endpoint
+
+templates:
+  /bin/run.sh: bin/run
+
+consumes:
+- name: kong
+  type: proxy
+  properties:
+  - kong_proxy_listen
+  - kong_proxy_listen_ssl
+  - kong_admin_listen
+  - kong_admin_listen_ssl
+
+packages: []
+
+properties:
+  name:
+    description: A name to reference this mapping
+    example: myAPI
+  hosts:
+    description: A comma-separated list of domain names that point to your API to be redirected to the upstream url
+    example: example.com
+  uris:
+    description: A comma-separated list of URIs prefixes that point to your API to be redirected to the upstream url 
+    example: /my-path
+  upstream_url:
+    description: The base target URL that points to your API server. This URL will be used for proxying requests
+    example: http://example.com

@@ -32,6 +32,13 @@ instance_groups:
           - "SUPERUSER"
   - name: kong
     release: kong
+  - name: kongConfig
+    lifecycle: errand
+    release: kong
+    properties:
+      name: myApi
+      hosts: fakehost.com
+      upstream_url: http://www.example.com
 
 variables: []
 
