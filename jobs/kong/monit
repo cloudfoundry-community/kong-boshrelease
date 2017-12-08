@@ -1,5 +1,5 @@
 check process kong
   with pidfile /var/vcap/sys/run/kong/kong.pid
-  start program "/var/vcap/jobs/kong/bin/monit_debugger ctl '/var/vcap/jobs/kong/bin/ctl start'"
-  stop program "/var/vcap/jobs/kong/bin/monit_debugger ctl '/var/vcap/jobs/kong/bin/ctl stop'"
+  start program "/var/vcap/jobs/kong/bin/monit_debugger ctl '/var/vcap/jobs/kong/bin/ctl.erb start'"
+  stop program "/var/vcap/jobs/kong/bin/monit_debugger ctl '/var/vcap/jobs/kong/bin/ctl.erb stop'"
   group vcap

@@ -17,42 +17,42 @@ case $1 in
     ${DOCKER_COMMAND} rm ${container_name} -f || true
 
   ${DOCKER_COMMAND} run --rm --privileged \
-    -e "KONG_DATABASE=<%= p("kong.kong_database") %>" \
-    -e "KONG_PG_DATABASE=kong" \
-    -e "KONG_PG_HOST=10.244.20.2" \
-    -e "KONG_PG_USER=kong" \
-    -e "KONG_PG_PASSWORD=kong" \
-    -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
-    -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
-    -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
-    -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
-    -e "KONG_PROXY_LISTEN=0.0.0.0:80" \
-    -e "KONG_PROXY_LISTEN_SSL=0.0.0.0:443" \
-    -p <%= p("kong.kong_proxy_listen_port") %>:<%= p("kong.kong_proxy_listen_port") %> \
-    -p <%= p("kong.kong_proxy_listen_ssl_port") %>:<%= p("kong.kong_proxy_listen_ssl_port") %> \
-    -p <%= p("kong.kong_admin_listen_port") %>:<%= p("kong.kong_admin_listen_port") %> \
-    -p <%= p("kong.kong_admin_listen_ssl_port") %>:<%= p("kong.kong_admin_listen_ssl_port") %> \
+    -e "KONG_DATABASE=<%= p("kong_database") %>" \
+    -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
+    -e "KONG_PG_HOST=<%= p("kong_pg_host") %>" \
+    -e "KONG_PG_USER=<%= p("kong_pg_user") %>" \
+    -e "KONG_PG_PASSWORD=<%= p("kong_pg_password") %>" \
+    -e "KONG_PROXY_ACCESS_LOG=<%= p("kong_proxy_access_log") %>" \
+    -e "KONG_ADMIN_ACCESS_LOG=<%= p("kong_admin_access_log") %>" \
+    -e "KONG_PROXY_ERROR_LOG=<%= p("kong_proxy_error_log") %>" \
+    -e "KONG_ADMIN_ERROR_LOG=<%= p("kong_admin_error_log") %>" \
+    -e "KONG_PROXY_LISTEN=<%= p("kong_proxy_listen") %>" \
+    -e "KONG_PROXY_LISTEN_SSL=<%= p("kong_proxy_listen_ssl") %>" \
+    -p <%= p("kong_proxy_listen_port") %>:<%= p("kong_proxy_listen_port") %> \
+    -p <%= p("kong_proxy_listen_ssl_port") %>:<%= p("kong_proxy_listen_ssl_port") %> \
+    -p <%= p("kong_admin_listen_port") %>:<%= p("kong_admin_listen_port") %> \
+    -p <%= p("kong_admin_listen_ssl_port") %>:<%= p("kong_admin_listen_ssl_port") %> \
     kong:latest kong migrations up \
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log \
 
-
   ${DOCKER_COMMAND} run -d --name kong --privileged \
-    -e "KONG_DATABASE=postgres" \
-    -e "KONG_PG_DATABASE=kong" \
-    -e "KONG_PG_HOST=10.244.20.2" \
-    -e "KONG_PG_USER=kong" \
-    -e "KONG_PG_PASSWORD=kong" \
-    -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
-    -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
-    -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
-    -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
-    -e "KONG_PROXY_LISTEN=0.0.0.0:80" \
-    -e "KONG_PROXY_LISTEN_SSL=0.0.0.0:443" \
-    -p <%= p("kong.kong_proxy_listen_port") %>:<%= p("kong.kong_proxy_listen_port") %> \
-    -p <%= p("kong.kong_proxy_listen_ssl_port") %>:<%= p("kong.kong_proxy_listen_ssl_port") %> \
-    -p <%= p("kong.kong_admin_listen_port") %>:<%= p("kong.kong_admin_listen_port") %> \
-    -p <%= p("kong.kong_admin_listen_ssl_port") %>:<%= p("kong.kong_admin_listen_ssl_port") %> \
+    -e "KONG_DATABASE=<%= p("kong_database") %>" \
+    -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
+    -e "KONG_PG_HOST=<%= p("kong_pg_host") %>" \
+    -e "KONG_PG_USER=<%= p("kong_pg_user") %>" \
+    -e "KONG_PG_PASSWORD=<%= p("kong_pg_password") %>" \
+    -e "KONG_PROXY_ACCESS_LOG=<%= p("kong_proxy_access_log") %>" \
+    -e "KONG_ADMIN_ACCESS_LOG=<%= p("kong_admin_access_log") %>" \
+    -e "KONG_PROXY_ERROR_LOG=<%= p("kong_proxy_error_log") %>" \
+    -e "KONG_ADMIN_ERROR_LOG=<%= p("kong_admin_error_log") %>" \
+    -e "KONG_PROXY_LISTEN=<%= p("kong_proxy_listen") %>" \
+    -e "KONG_PROXY_LISTEN_SSL=<%= p("kong_proxy_listen_ssl") %>" \
+    -p <%= p("kong_proxy_listen_port") %>:<%= p("kong_proxy_listen_port") %> \
+    -p <%= p("kong_proxy_listen_ssl_port") %>:<%= p("kong_proxy_listen_ssl_port") %> \
+    -p <%= p("kong_admin_listen_port") %>:<%= p("kong_admin_listen_port") %> \
+    -p <%= p("kong_admin_listen_ssl_port") %>:<%= p("kong_admin_listen_ssl_port") %> \
+    kong:latest \
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log
 

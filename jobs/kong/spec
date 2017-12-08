@@ -5,59 +5,59 @@ description: Kong is a scalable, open source API Layer (also known as an API Gat
 
 packages: []
 templates:
-  bin/ctl: bin/ctl
+  bin/ctl.erb: bin/ctl.erb
   bin/monit_debugger: bin/monit_debugger
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
   kong_database:
-    description: 'database that kong will use; either postgres or cassandra'
+    description: database that kong will use; either postgres or cassandra
     default: postgres
   kong_pg_database:
-    descrption: 'name of the postgres database that kong will use'
+    descrption: name of the postgres database that kong will use
     default: kong
   kong_pg_host:
-    description: 'ip address/hostname of the machine that postgres is running on'
+    description: ip address/hostname of the machine that postgres is running on
   kong_pg_user:
-    description: 'username for the postgres db'
+    description: username for the postgres db
     default: kong
   kong_pg_password:
-    description: 'password for the postgress db user'
+    description: password for the postgress db user
     default: kong
   kong_proxy_access_log:
-    description: 'directory for kong's proxy logs'
+    description: directory for kong's proxy logs
     default: /dev/stdout
   kong_admin_access_log:
-    description: 'directory for kong's admin access logs'
+    description: directory for kong's admin access logs
     default: /dev/stdout
   kong_proxy_error_log:
-    description: 'directory for kong's proxy error logs'
+    description: directory for kong's proxy error logs
     default: /dev/stderr
   kong_admin_error_log:
-    description: 'directory for kong's admin error logs'
+    description: directory for kong's admin error logs
     default: /dev/stderr
   kong_proxy_listen:
-    description: 'address for kong's proxy service to listen on'
+    description: address for kong's proxy service to listen on
     default: 0.0.0.0:80
   kong_admin_listen:
-    description: 'address for kong's admin service to listen on'
-    default: 0.0.0.0:8000
+    description: address for kong's admin service to listen on
+    default: 0.0.0.0:8001
   kong_proxy_listen_ssl:
-    description: 'address for kong's proxy service to listen on for ssl requests'
+    description: address for kong's proxy service to listen on for ssl requests
     default: 0.0.0.0:443
   kong_admin_listen_ssl:
-    description: 'address for kong's admin service to listen on for ssl requests'
+    description: address for kong's admin service to listen on for ssl requests
     default: 0.0.0.0:8443
   kong_proxy_listen_port:
-    description: 'port for kong's proxy service to listen on'
+    description: port for kong's proxy service to listen on
     default: 80
   kong_admin_listen_port:
-    description: 'port for kong's admin service to listen on'
-    default: 8000
+    description: port for kong's admin service to listen on
+    default: 8001
   kong_proxy_listen_ssl_port:
-    description: 'address for kong's proxy service to listen on for ssl requests'
+    description: address for kong's proxy service to listen on for ssl requests
     default: 443
   kong_admin_listen_ssl_port:
-    description: 'address for kong's admin service to listen on for ssl requests'
+    description: address for kong's admin service to listen on for ssl requests
     default: 8443
