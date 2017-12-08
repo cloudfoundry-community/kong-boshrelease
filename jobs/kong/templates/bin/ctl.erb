@@ -8,6 +8,11 @@ export DOCKER_COMMAND="/var/vcap/packages/docker/bin/docker -H unix:///var/vcap/
 export container_name="kong"
 export CONTAINERS_PID_DIR=${RUN_DIR}
 export CONTAINER_PID_FILE=${CONTAINERS_PID_DIR}/${container_name}.pid
+
+#bosh link variables
+export DATABASE_HOST="<%= link('postgres').instances[0].address %>"
+export DATABASE_PORT="<%= link('postgres').p('databases.port') %>"
+
 case $1 in
 
   start)
@@ -19,7 +24,7 @@ case $1 in
   ${DOCKER_COMMAND} run --rm --privileged \
     -e "KONG_DATABASE=<%= p("kong_database") %>" \
     -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
-    -e "KONG_PG_HOST=<%= p("kong_pg_host") %>" \
+    -e "KONG_PG_HOST=${DATABASE_HOST}" \
     -e "KONG_PG_USER=<%= p("kong_pg_user") %>" \
     -e "KONG_PG_PASSWORD=<%= p("kong_pg_password") %>" \
     -e "KONG_PROXY_ACCESS_LOG=<%= p("kong_proxy_access_log") %>" \
@@ -34,12 +39,12 @@ case $1 in
     -p <%= p("kong_admin_listen_ssl_port") %>:<%= p("kong_admin_listen_ssl_port") %> \
     kong:latest kong migrations up \
     >>${LOG_DIR}/${output_label}.stdout.log \
-    2>>${LOG_DIR}/${output_label}.stderr.log \
+    2>>${LOG_DIR}/${output_label}.stderr.log
 
   ${DOCKER_COMMAND} run -d --name kong --privileged \
     -e "KONG_DATABASE=<%= p("kong_database") %>" \
     -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
-    -e "KONG_PG_HOST=<%= p("kong_pg_host") %>" \
+    -e "KONG_PG_HOST=${DATABASE_HOST}" \
     -e "KONG_PG_USER=<%= p("kong_pg_user") %>" \
     -e "KONG_PG_PASSWORD=<%= p("kong_pg_password") %>" \
     -e "KONG_PROXY_ACCESS_LOG=<%= p("kong_proxy_access_log") %>" \

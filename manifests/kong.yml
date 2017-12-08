@@ -32,9 +32,6 @@ instance_groups:
           - "SUPERUSER"
   - name: kong
     release: kong
-    properties:
-      kong_pg_host: 10.244.20.2
-
 
 variables: []
 

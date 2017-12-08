@@ -10,6 +10,10 @@ templates:
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
+consumes:
+- name: postgres
+  type: database
+
 properties:
   kong_database:
     description: database that kong will use; either postgres or cassandra
