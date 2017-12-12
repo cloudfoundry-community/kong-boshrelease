@@ -1,5 +1,0 @@
-check process kongConfig
-  with pidfile /var/vcap/sys/run/bpm/kongConfig/kongConfig.pid
-  start program "/var/vcap/jobs/bpm/bin/bpm start kongConfig"
-  stop program "/var/vcap/jobs/bpm/bin/bpm stop kongConfig"
-  group vcap

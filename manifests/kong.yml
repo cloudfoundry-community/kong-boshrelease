@@ -13,7 +13,6 @@ instance_groups:
   - name: default
     static_ips:
     - 10.244.20.2
-    
   jobs:
   - name: docker
     release: docker
@@ -32,13 +31,20 @@ instance_groups:
           - "SUPERUSER"
   - name: kong
     release: kong
+- name: kongConfig
+  instances: 1
+  azs: [z1]
+  lifecycle: errand
+  vm_type: default
+  stemcell: default
+  networks: [{name: default}]
+  jobs:
   - name: kongConfig
-    lifecycle: errand
     release: kong
     properties:
-      name: myApi
-      hosts: fakehost.com
-      upstream_url: http://www.example.com
+      name: "myApi"
+      hosts: "fakehost.com"
+      upstream_url: "http://www.example.com"
 
 variables: []
 

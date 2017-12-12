@@ -15,9 +15,13 @@ provides:
   type: proxy
   properties:
   - kong_proxy_listen
+  - kong_proxy_listen_port
   - kong_proxy_listen_ssl
+  - kong_proxy_listen_ssl_port
   - kong_admin_listen
+  - kong_admin_listen_port
   - kong_admin_listen_ssl
+  - kong_admin_listen_ssl_port
 
 consumes:
 - name: postgres
