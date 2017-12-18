@@ -14,6 +14,10 @@ instance_groups:
     static_ips:
     - 10.244.20.2
   jobs:
+  - name: toolbelt
+    release: toolbelt
+  - name: toolbelt-quick
+    release: toolbelt
   - name: docker
     release: docker
   - name: postgres
@@ -71,3 +75,6 @@ releases:
   version: 30.1.5
   url: https://bosh.io/d/github.com/cf-platform-eng/docker-boshrelease?v=30.1.5
   sha1: bc592e3f75c3dfd4c91efe91a3bb8a3ca716ad52
+- name: toolbelt
+  version: 3.4.0
+  url: https://bosh.io/d/github.com/cloudfoundry-community/toolbelt-boshrelease?v=3.4.0

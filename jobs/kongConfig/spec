@@ -33,3 +33,14 @@ properties:
   upstream_url:
     description: The base target URL that points to your API server. This URL will be used for proxying requests
     example: http://example.com
+
+  config:
+    description: |
+      A list of configurations to be bootstrapped with kong.
+    example:
+      - name: myApi
+        hosts: example1.com
+        uris:
+          - uri1
+          - uri2
+        upstream_url: random.org
