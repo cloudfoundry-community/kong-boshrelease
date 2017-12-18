@@ -1,3 +1,6 @@
+jq/jq-linux64:
+  size: 3027945
+  sha: d8e36831c3c94bb58be34dd544f44a6c6cb88568
 kong/git-2.9.5.tar.gz:
   size: 5928730
   sha: 278eae9d50f89a519522f6b288cabcb5ca583ef6

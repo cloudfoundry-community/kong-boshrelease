@@ -42,6 +42,8 @@ instance_groups:
   vm_type: default
   stemcell: default
   networks: [{name: default}]
+  packages:
+  - name: jq
   jobs:
   - name: kongConfig
     release: kong

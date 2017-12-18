@@ -3,7 +3,8 @@ name: kongConfig
 description: kongConfig loads the desired config for proxying into Kong's admin api endpoint
 
 templates:
-  /bin/run.sh: bin/run
+  /bin/run.sh.erb: bin/run
+  config/config.yml.erb: config/config.yml
 
 consumes:
 - name: kong
@@ -19,6 +20,9 @@ consumes:
   - kong_admin_listen_ssl_port
 
 packages: []
+
+dependencies:
+- name: jq
 
 properties:
   name:
