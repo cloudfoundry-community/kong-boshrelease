@@ -28,6 +28,9 @@ consumes:
   type: database
 
 properties:
+  kong_custom_plugins:
+    description: custom plugins for kong
+    default: ""
   kong_database:
     description: database that kong will use; either postgres or cassandra
     default: postgres
