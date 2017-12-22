@@ -1,0 +1,8 @@
+---
+# Note kong plugins look for *-plugin format
+name: helloworld-plugin
+
+packages:
+- helloworld-plugin
+templates: {}
+properties: {}

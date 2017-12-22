@@ -15,6 +15,13 @@ export DATABASE_HOST="<%= link('postgres').instances[0].address %>"
   export DATABASE_HOST=prop
 <% end %>
 
+export plugins=""
+for package_dir in $(ls -d /var/vcap/packages/*-plugin)
+do
+  plugin_name=$(basename /var/vcap/packages/helloworld-plugin | cut -d- -f1)
+  plugins="${plugins} -v ${package_dir}:/usr/local/share/lua/5.1/kong/plugins/${plugin_name}"
+done
+
 case $1 in
 
   start)
@@ -55,6 +62,8 @@ case $1 in
     -e "KONG_ADMIN_ERROR_LOG=<%= p("kong_admin_error_log") %>" \
     -e "KONG_PROXY_LISTEN=<%= p("kong_proxy_listen") %>" \
     -e "KONG_PROXY_LISTEN_SSL=<%= p("kong_proxy_listen_ssl") %>" \
+    -e "KONG_CUSTOM_PLUGINS=<%= p("kong_custom_plugins") %>" \
+    ${plugins} \
     -p <%= p("kong_proxy_listen_port") %>:<%= p("kong_proxy_listen_port") %> \
     -p <%= p("kong_proxy_listen_ssl_port") %>:<%= p("kong_proxy_listen_ssl_port") %> \
     -p <%= p("kong_admin_listen_port") %>:<%= p("kong_admin_listen_port") %> \
