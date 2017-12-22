@@ -8,5 +8,5 @@ CPUS=$(grep -c ^processor /proc/cpuinfo)
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 export HOME=/var/vcap
 
-
-cp -r helloworld/* ${BOSH_INSTALL_TARGET}
+mkdir -p ${BOSH_INSTALL_TARGET}/plugins/
+cp -R helloworld ${BOSH_INSTALL_TARGET}/plugins/

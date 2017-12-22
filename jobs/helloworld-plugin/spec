@@ -4,5 +4,8 @@ name: helloworld-plugin
 
 packages:
 - helloworld-plugin
-templates: {}
+templates:
+  plugins/helloworld/access.lua: plugins/helloworld/access.lua
+  plugins/helloworld/handler.lua: plugins/helloworld/handler.lua
+  plugins/helloworld/schema.lua: plugins/helloworld/schema.lua
 properties: {}

@@ -2,4 +2,4 @@
 name: helloworld-plugin
 dependencies: []
 files:
-- helloworld/*
+- helloworld/**/*
