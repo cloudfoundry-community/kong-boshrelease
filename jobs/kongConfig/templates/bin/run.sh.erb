@@ -1,5 +1,5 @@
 #!/bin/bash
-export KONG_ADMIN_ADDRESS=10.244.20.2:8001
+export KONG_ADMIN_ADDRESS=http://<%= link('kong').p('kong_admin_listen') %>
 export KONG_ADMIN_RESPONSE=$(curl $KONG_ADMIN_ADDRESS/apis/)
 export NUM_OF_MAPPINGS=$(echo $KONG_ADMIN_RESPONSE | jq '.[0] | .total')
 
@@ -16,34 +16,52 @@ end
 config[] = configlist
 %>
 
-#delete existing kong mappings
+
+#get ids for the existing kong mappings
 for i in `seq 0 $NUM_OF_MAPPINGS`;
   do
     echo "deleting mapping number: $i"
-    API_ID=$(echo $KONG_ADMIN_RESPONSE | jq '. | .data[$i].id')
-    curl DELETE \
-      --url $KONG_ADMIN_ADDRESS/apis/$API_ID
+    export CURRENT_API_ID=$(echo $KONG_ADMIN_RESPONSE | jq '. | .data[$i].id')
+    export EXISTING_API_IDS=()
+    EXISTING_API_IDS+=($CURRENT_API_ID)
+
+    
 done
 
-#send the new mappings to the kong admin
+#send/update the mappings from config to the kong admin
+export NEW_API_IDS=()
 for j in `seq 0 $NUM_OF_MAPPINGS`
   do
     <% if_p("config.hosts") do |hosts| %>
-      echo "sending mapping with hosts: $hosts"
-      curl POST \
+      echo "sending mapping with hosts:"<%= $hosts %>
+      NEW_API_IDS+=(curl PUT \
         --url $KONG_ADMIN_ADDRESS/apis/ \
-        --data "name=$config.config_name[$j]" \
-        --data 'hosts=$hosts' \
-        --data 'upstream_url=$config._upstream_url'
+        --data "name="<%= config.config_name[$j] %> \
+        --data "hosts="<%= hosts %> \
+        --data "upstream_url="<%= config._upstream_url %> \
+      | jq '. | .data[$i].id')
     <% end %>
 
     <% if_p("config.uris") do |uris| %>
-      echo "sending mapping with uris: $uris"
-      curl POST \
+      echo "sending mapping with uris:"<%= uris %>
+      NEW_API_IDS+=(curl PUT \
         --url $KONG_ADMIN_ADDRESS/apis/ \
-        --data "name=$config.config_name[$j]" \
-        --data 'uris=$uris' \
-        --data 'upstream_url=$config.upstream_url'
+        --data "name="<%= config.config_name[$j] %> \
+        --data "uris="<%= uris %> \
+        --data "upstream_url="<%= config._upstream_url %> \
+      | jq '. | .data[$i].id')
     <% end %>
+done
+
+#delete all of the ids that were in the original list but were not found in the new mappings
+if [ $NEW_API_IDS ${#NEW_API_IDS[@]} > ${#EXISTING_API_IDS[@]} ]; then
+  export ARRAYS_TO_BE_DELETED 
+else
+
+fi
+
+for k in `seq 0 ${#ArrayName[@]}`
+  do
+
 done
 exit 0
