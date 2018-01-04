@@ -31,7 +31,7 @@ j
   local rawHeader = ngx.req.raw_header()
 
   --regext to check if the request is sent to the uri that we're listening for (with a guid in the middle there)
-  local uri_location_matches, err = ngx.re.match(ngx.req.uri, "/v2/spaces/[0-9a-fA-F]{8}\-([0-9a-fA-F]{4}\-){3}[0-9a-fA-F]{12}/services")
+  local uri_location_matches, err = ngx.re.match(ngx.var.uri, "/v2/spaces/[0-9a-fA-F]{8}\-([0-9a-fA-F]{4}\-){3}[0-9a-fA-F]{12}/services")
   if not uri_location_matches
     if err then
       ngx.log(ngx.ERR, "error: ", err)
@@ -50,8 +50,7 @@ j
     ngx.print("statuscode:  " .. statuscode)
     ngx.print("content:  " .. content)
   end
-
-  ngx.print(ngx.req.raw_header())
+  ngx.pring("raw header:  " .. ngx.req.raw_header())
 
 -- 2. get all services from Nurego
 -- GET /v1/catalog on Nurego endpoint to get services
