@@ -1,5 +1,5 @@
 #!/bin/bash
-export KONG_ADMIN_ADDRESS=<%= link('kong').instances[0].address %>:<%= link('kong').p('kong_admin_listen_port') %>
+export KONG_ADMIN_ADDRESS=<%= p('kong_admin_listen') %>
 curl -i -X POST \
   --url http://$KONG_ADMIN_ADDRESS/apis \
   --data 'name=<%= p("name") %>' \

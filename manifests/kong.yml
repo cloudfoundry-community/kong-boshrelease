@@ -33,16 +33,6 @@ instance_groups:
     release: kong
   - name: kong
     release: kong
-- name: kongConfigInstance
-  instances: 1
-  azs: [z1]
-  lifecycle: errand
-  vm_type: default
-  stemcell: default
-  networks: [{name: default}]
-  jobs:
-  - name: kongConfig
-    release: kong
     properties:
       name: "myApi"
       hosts: "fakehost.com"

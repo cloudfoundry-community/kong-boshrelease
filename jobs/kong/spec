@@ -6,6 +6,7 @@ description: Kong is a scalable, open source API Layer (also known as an API Gat
 packages: []
 templates:
   bin/ctl.erb: bin/ctl.erb
+  bin/post-start.erb: bin/post-start
   bin/monit_debugger: bin/monit_debugger
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
@@ -82,3 +83,15 @@ properties:
   kong_admin_listen_ssl_port:
     description: address for kong's admin service to listen on for ssl requests
     default: 8443
+  name:
+    description: A name to reference this mapping
+    example: myAPI
+  hosts:
+    description: A comma-separated list of domain names that point to your API to be redirected to the upstream url
+    example: example.com
+  uris:
+    description: A comma-separated list of URIs prefixes that point to your API to be redirected to the upstream url 
+    example: /my-path
+  upstream_url:
+    description: The base target URL that points to your API server. This URL will be used for proxying requests
+    example: http://example.com
