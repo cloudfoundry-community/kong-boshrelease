@@ -1,5 +1,6 @@
 #!/bin/bash
-export KONG_ADMIN_ADDRESS=<%= p('kong_admin_listen') %>
+sleep 5m
+KONG_ADMIN_ADDRESS=<%= spec.ip %>:<%= p("kong_admin_listen_port") %>
 curl -i -X POST \
   --url http://$KONG_ADMIN_ADDRESS/apis \
   --data 'name=<%= p("name") %>' \

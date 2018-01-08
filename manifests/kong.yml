@@ -34,7 +34,7 @@ instance_groups:
   - name: kong
     release: kong
     properties:
-      name: "myApi"
+      name: "myApi5555"
       hosts: "fakehost.com"
       upstream_url: "http://www.example.com"
       kong_custom_plugins: "helloworld"

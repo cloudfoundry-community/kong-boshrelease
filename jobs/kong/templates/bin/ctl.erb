@@ -74,6 +74,11 @@ case $1 in
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log
 
+    echo "waiting for Kong to spin up ..."
+    while ! curl -Ls --fail <%= spec.ip %>:<%= p("kong_admin_listen_port") %> 2>/dev/null; do
+      sleep 1
+    done
+
     pid_process=$(${DOCKER_COMMAND} inspect -f '{{ .State.Pid }}' ${container_name})
     echo $pid_process > ${CONTAINER_PID_FILE}
     ;;
