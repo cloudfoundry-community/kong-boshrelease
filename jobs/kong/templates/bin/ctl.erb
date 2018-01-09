@@ -5,7 +5,7 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/kong/helpers/ctl_setup.sh 'kong'
 export DOCKER_COMMAND="/var/vcap/packages/docker/bin/docker -H unix:///var/vcap/sys/run/docker/docker.sock"
-export container_name="kong"
+export CONTAINER_NAME="customKong"
 export CONTAINERS_PID_DIR=${RUN_DIR}
 export CONTAINER_PID_FILE=${CONTAINERS_PID_DIR}/${container_name}.pid
 
@@ -30,6 +30,7 @@ case $1 in
     ${DOCKER_COMMAND} stop ${container_name}  || true
     ${DOCKER_COMMAND} rm ${container_name} -f || true
 
+  ${DOCKER_COMMAND} build -t ${CONTAINER_NAME} /var/vcap/jobs/kong/config/Dockerfile
   ${DOCKER_COMMAND} run --rm --privileged \
     -e "KONG_DATABASE=<%= p("kong_database") %>" \
     -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
@@ -48,7 +49,7 @@ case $1 in
     -p <%= p("kong_proxy_listen_ssl_port") %>:<%= p("kong_proxy_listen_ssl_port") %> \
     -p <%= p("kong_admin_listen_port") %>:<%= p("kong_admin_listen_port") %> \
     -p <%= p("kong_admin_listen_ssl_port") %>:<%= p("kong_admin_listen_ssl_port") %> \
-    kong:latest kong migrations up \
+    ${CONTAINER_NAME} kong migrations up \
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log
 
@@ -70,7 +71,7 @@ case $1 in
     -p <%= p("kong_proxy_listen_ssl_port") %>:<%= p("kong_proxy_listen_ssl_port") %> \
     -p <%= p("kong_admin_listen_port") %>:<%= p("kong_admin_listen_port") %> \
     -p <%= p("kong_admin_listen_ssl_port") %>:<%= p("kong_admin_listen_ssl_port") %> \
-    kong:latest \
+    ${CONTAINER_NAME} \
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log
 

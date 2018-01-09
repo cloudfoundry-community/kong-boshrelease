@@ -27,7 +27,19 @@ function _M.execute(conf)
     to get the organization_guid for the given space
     ]]--
   local http = require("socket.http")
+
   --local rawHeader = ngx.req.raw_header()
+
+  body, content, header = http.request("https://api.magicthegathering.io/v1/cards/386616")
+
+  --local org_guid = content.organization_guid
+  ngx.print("body:  " .. body)
+  ngx.print("content:  " .. content)
+  ngx.print("header:  " .. header)
+
+
+
+
 
   --regext to check if the request is sent to the uri that we're listening for (with a guid in the middle there)
   local uri_location_matches, err = ngx.re.match(ngx.var.uri, "/v2/spaces/[0-9a-fA-F]{8}\-([0-9a-fA-F]{4}\-){3}[0-9a-fA-F]{12}/services")
