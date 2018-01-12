@@ -1,7 +1,6 @@
 #!/bin/bash
-sleep 5m
 KONG_ADMIN_ADDRESS=<%= spec.ip %>:<%= p("kong_admin_listen_port") %>
-curl -i -X POST \
+curl -i -X PUT \
   --url http://$KONG_ADMIN_ADDRESS/apis \
   --data 'name=<%= p("name") %>' \
   --data 'hosts=<%= p("hosts") %>' \

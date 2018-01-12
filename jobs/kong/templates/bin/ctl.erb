@@ -5,9 +5,9 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/kong/helpers/ctl_setup.sh 'kong'
 export DOCKER_COMMAND="/var/vcap/packages/docker/bin/docker -H unix:///var/vcap/sys/run/docker/docker.sock"
-export CONTAINER_NAME="customKong"
+export CONTAINER_NAME="customkong"
 export CONTAINERS_PID_DIR=${RUN_DIR}
-export CONTAINER_PID_FILE=${CONTAINERS_PID_DIR}/${container_name}.pid
+export CONTAINER_PID_FILE=${CONTAINERS_PID_DIR}/${CONTAINER_NAME}.pid
 
 #bosh link will auto grab the postgres, unless it's defined in the manifest
 export DATABASE_HOST="<%= link('postgres').instances[0].address %>"
@@ -27,10 +27,10 @@ case $1 in
   start)
     pid_guard ${CONTAINER_PID_FILE} ${JOB_NAME}
     echo $$ > ${CONTAINER_PID_FILE}
-    ${DOCKER_COMMAND} stop ${container_name}  || true
-    ${DOCKER_COMMAND} rm ${container_name} -f || true
+    ${DOCKER_COMMAND} stop ${CONTAINER_NAME}  || true
+    ${DOCKER_COMMAND} rm ${CONTAINER_NAME} -f || true
 
-  ${DOCKER_COMMAND} build -t ${CONTAINER_NAME} /var/vcap/jobs/kong/config/Dockerfile
+  ${DOCKER_COMMAND} image build -t ${CONTAINER_NAME} /var/vcap/jobs/kong/config/Dockerfile
   ${DOCKER_COMMAND} run --rm --privileged \
     -e "KONG_DATABASE=<%= p("kong_database") %>" \
     -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
@@ -53,7 +53,7 @@ case $1 in
     >>${LOG_DIR}/${output_label}.stdout.log \
     2>>${LOG_DIR}/${output_label}.stderr.log
 
-  ${DOCKER_COMMAND} run -d --name kong --privileged \
+  ${DOCKER_COMMAND} run -d --name ${CONTAINER_NAME} --privileged \
     -e "KONG_DATABASE=<%= p("kong_database") %>" \
     -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
     -e "KONG_PG_HOST=${DATABASE_HOST}" \
@@ -80,13 +80,13 @@ case $1 in
       sleep 1
     done
 
-    pid_process=$(${DOCKER_COMMAND} inspect -f '{{ .State.Pid }}' ${container_name})
+    pid_process=$(${DOCKER_COMMAND} inspect -f '{{ .State.Pid }}' ${CONTAINER_NAME})
     echo $pid_process > ${CONTAINER_PID_FILE}
     ;;
 
   stop)
-    ${DOCKER_COMMAND} stop ${container_name}
-    ${DOCKER_COMMAND} rm ${container_name} -f
+    ${DOCKER_COMMAND} stop ${CONTAINER_NAME}
+    ${DOCKER_COMMAND} rm ${CONTAINER_NAME} -f
     ;;
   *)
     echo "Usage: ctl {start|stop}"
