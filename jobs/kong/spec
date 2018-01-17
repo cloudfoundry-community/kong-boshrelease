@@ -10,6 +10,8 @@ templates:
   bin/monit_debugger: bin/monit_debugger
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
+  config/Dockerfile: config/Dockerfile
+  config/luasocket-3.0rc1-2.rockspec: config/luasocket-3.0rc1-2.rockspec
 
 provides:
 - name: kong

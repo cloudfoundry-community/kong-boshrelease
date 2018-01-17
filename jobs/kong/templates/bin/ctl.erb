@@ -30,7 +30,7 @@ case $1 in
     ${DOCKER_COMMAND} stop ${CONTAINER_NAME}  || true
     ${DOCKER_COMMAND} rm ${CONTAINER_NAME} -f || true
 
-  ${DOCKER_COMMAND} image build -t ${CONTAINER_NAME} /var/vcap/jobs/kong/config/Dockerfile
+  ${DOCKER_COMMAND} image build -t ${CONTAINER_NAME} /var/vcap/jobs/kong/config/
   ${DOCKER_COMMAND} run --rm --privileged \
     -e "KONG_DATABASE=<%= p("kong_database") %>" \
     -e "KONG_PG_DATABASE=<%= p("kong_pg_database") %>" \
